@@ -19,9 +19,10 @@ That foundation is what we want you to build.
 Create the **architectural skeleton** of a backend data-processing service for a
 crypto-tax product.
 
-We are explicitly **not** interested in business logic. No real tax math, no real
-blockchain integrations — stubs and fixtures are fine. What matters is the architecture,
-the boundaries, and the data model.
+We are explicitly **not** interested in business logic. No real tax math — stubs are
+fine. What matters is the architecture, the boundaries, and the data model. The app
+must, however, import from the two provided data sources — that's what grounds the
+skeleton in real data.
 
 Your skeleton should show:
 
@@ -33,20 +34,26 @@ Your skeleton should show:
 - **Data model** — a PostgreSQL schema for a small slice of the domain (e.g. wallets and
   transactions), with migrations. This is the part where design matters to us: entity
   boundaries, keys, and how you represent monetary values.
-- **One thin end-to-end flow** — a fixture import (e.g. a CSV or a fake exchange
-  payload) travels through the queue, gets normalized by a worker, lands in PostgreSQL,
-  and is readable back via a minimal endpoint or CLI command. Plus a test or two showing
-  how testing is meant to work here.
+- **One thin end-to-end flow** — an import from the provided sources travels through
+  the queue, gets normalized by a worker, lands in PostgreSQL, and is readable back via
+  a minimal endpoint or CLI command. Plus a test or two showing how testing is meant to
+  work here.
 
 Everything else can be a stub — and stating what you stubbed is part of the task.
 
+## Data to Import
+
+- [`fixtures/bluewallet.csv`](fixtures/bluewallet.csv) — a BlueWallet CSV export.
+- ARK wallet `AK1C5Fe8QUWfVaxzNwr4Uhy9uA9bJaPidk` — fetched from the free public ARK API
+  (`https://api.ark.io/api`, no auth).
+
 ## Constraints
 
-- **TypeScript**, strict mode. The rest of the toolchain is your call (we run on Bun
-  with RabbitMQ, Redis, PostgreSQL, and Vitest — but pick what you can best defend).
+- **TypeScript**, strict mode. The rest of the toolchain is your call (we run on Node.js
+  with RabbitMQ, Redis, PostgreSQL, and node:test — but pick what you can best defend).
 - It must start with a single command ``docker compose up`` bringing up the app and its infrastructure. No other setup
-  beyond Docker. A short note on how to trigger and observe the example flow belongs
-  in the README.
+  beyond Docker. A short note on how to trigger an import from each source and
+  observe the result belongs in the README.
 
 ## The Write-Up
 
